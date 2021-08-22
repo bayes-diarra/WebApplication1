@@ -21,6 +21,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             _sender = sender;
         }
 
+        //"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+"
         public string Email { get; set; }
 
         public bool DisplayConfirmAccountLink { get; set; }
@@ -37,12 +38,12 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return NotFound($"Unable to load user with email '{email}'.");
+                return NotFound($"Impossible de charger l'utilisateur avec l'e-mail '{email}'.");
             }
 
             Email = email;
-            // Once you add a real email sender, you should remove this code that lets you confirm the account
-            DisplayConfirmAccountLink = true;
+            
+            DisplayConfirmAccountLink = false;
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
