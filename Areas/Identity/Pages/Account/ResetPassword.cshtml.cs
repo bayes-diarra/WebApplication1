@@ -29,7 +29,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress(ErrorMessage = "Saisissez une adresse e-mail valide.")]
-            [Display(Name = "E-mail")]
+            [Display(Name = "E-mail ou ou Nom d'utilisateur")]
             public string Email { get; set; }
 
             [Required]
