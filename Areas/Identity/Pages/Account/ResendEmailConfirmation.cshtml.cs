@@ -62,10 +62,8 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "confirmez votre e-mail",
-                $"Veuillez confirmer votre compte en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant ici</a>.");
+            await _emailSender.SendEmailAsync("bayes.diarra@msss.gouv.qc.ca", "Confirmation d'e-mail",
+                        $" S'il vous plaît, confirmez l'e-mail en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant sur ce lien</a>.");
 
             ModelState.AddModelError(string.Empty, "L'e-mail de vérification a été envoyé. Merci de consulter vos e-mails.");
             return Page();

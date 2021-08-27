@@ -43,7 +43,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
 
             Email = email;
             
-            DisplayConfirmAccountLink = false;
+            DisplayConfirmAccountLink = true;
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);

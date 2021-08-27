@@ -88,8 +88,14 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirmez votre e-mail",
-                        $" S'il vous plaît, confirmez votre e-mail en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant sur ce lien</a>.");
+                    await _emailSender.SendEmailAsync("bayes.diarra@msss.gouv.qc.ca", "Confirmation d'e-mail",
+                        $" S'il vous plaît, confirmez l'e-mail en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant sur ce lien</a>.");
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Création de votre compte",
+                            $" Votre compte a été Créé sont activation pourrait prendre quelques instants que vous puissez commencer à l'utliliser. \n" +
+                            $"Vos Identiants sont : \n" +
+                            $"Nom d'utilisateur : {Input.Email} \n" +
+                            $"Mot de passe : {Input.Password}");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

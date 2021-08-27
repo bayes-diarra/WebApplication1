@@ -9,13 +9,16 @@
     if (@Model.DisplayConfirmAccountLink)
     {
 <p>
-    <a id="confirm-link" href="@Model.EmailConfirmationUrl">Cliquez ici pour confirmer du compte</a>
+    <a id="confirm-link" href="@Model.EmailConfirmationUrl">Cliquez ici pour confirmer le compte.</a>
+</p>
+<p>
+   Ou bien, verifiez votre e-mail pour confirmer l'inscription.
 </p>
     }
     else
     {
 <p>
-    S'il vous plaît, verifiez votre e-mail pour confirmer votre inscription.
+    S'il vous plaît, verifiez votre e-mail pour confirmer l'inscription.
 </p>
     }
 }

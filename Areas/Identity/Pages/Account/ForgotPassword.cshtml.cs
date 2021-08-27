@@ -59,7 +59,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "réinitialiser le mot de passe",
+                    "Réinitialiser le mot de passe",
                     $"Veuillez réinitialiser votre mot de passe en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant ici</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");

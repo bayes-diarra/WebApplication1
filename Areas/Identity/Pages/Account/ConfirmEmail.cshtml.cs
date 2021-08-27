@@ -9,16 +9,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
+using Microsoft.AspNetCore.Identity.UI.Services;
+
 namespace WebApplication1.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
+        public ConfirmEmailModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         [TempData]
@@ -39,7 +43,12 @@ namespace WebApplication1.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "Merci d'avoir confirmé votre e-mail." : "Erreur de confirmation de votre e-mail.";
+            StatusMessage = result.Succeeded ? "L'e-mail a été confirmé avec succes." : "Erreur de confirmation d'e-mail.";
+            //if (user.EmailConfirmed) 
+            //{ 
+            //    await _emailSender.SendEmailAsync(user.Email, "Création de votre compte",
+            //                $" Votre compte a été activé et vous pouvez commencer à l'utliliser. ");
+            //}
             return Page();
         }
     }

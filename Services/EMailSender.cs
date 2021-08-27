@@ -9,6 +9,7 @@ namespace WebApplication1.Services
 {
     public class EmailSender : IEmailSender
     {
+
         public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
         {
             Options = optionsAccessor.Value;
