@@ -17,12 +17,10 @@ namespace WebApplication1.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
         }
 
         [TempData]

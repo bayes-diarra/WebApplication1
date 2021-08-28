@@ -12,6 +12,8 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        [TempData]
+        public string StatusMessage { get; set; }
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -20,6 +22,7 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
