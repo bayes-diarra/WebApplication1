@@ -35,24 +35,36 @@ namespace WebApplication1
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             //     services.Configure<DataProtectionTokenProviderOptions>(o =>
             //o.TokenLifespan = TimeSpan.FromHours(5));
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserRights", policy =>
+                  policy.RequireRole("Administrator", "ExternalUser", "InternalUser"));
+                //options.AddPolicy("ElevatedRights", policy =>
+                // policy.RequireRole("Administrator", "PowerUser", "BackupAdministrator"));
+            });
 
 
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
-            //services.AddRazorPages();
+            services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>
             {
+
+                
+
                 // Password settings.
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 8;
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
