@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using WebApplication1.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using WebApplication1.Services;
-
+using WebApplication1.Models.CustomIdentity;
 namespace WebApplication1
 {
     public class Startup
@@ -34,19 +34,21 @@ namespace WebApplication1
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<WebApplication1User,WebApplication1Role>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            //services.AddScoped<IUserClaimsPrincipalFactory<WebApplication1User>,
+            //    AdditionalUserClaimsPrincipalFactory>();
             //     services.Configure<DataProtectionTokenProviderOptions>(o =>
             //o.TokenLifespan = TimeSpan.FromHours(5));
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("UserRights", policy =>
-                  policy.RequireRole("Administrator", "ExternalUser", "InternalUser"));
-                //options.AddPolicy("ElevatedRights", policy =>
-                // policy.RequireRole("Administrator", "PowerUser", "BackupAdministrator"));
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("UserRights", policy =>
+            //      policy.RequireRole("Administrator", "ExternalUser", "InternalUser"));
+            //    //options.AddPolicy("ElevatedRights", policy =>
+            //    // policy.RequireRole("Administrator", "PowerUser", "BackupAdministrator"));
+            //});
 
 
             services.AddTransient<IEmailSender, EmailSender>();
@@ -57,8 +59,6 @@ namespace WebApplication1
             services.Configure<IdentityOptions>(options =>
             {
 
-                
-
                 // Password settings.
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
@@ -68,7 +68,7 @@ namespace WebApplication1
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 

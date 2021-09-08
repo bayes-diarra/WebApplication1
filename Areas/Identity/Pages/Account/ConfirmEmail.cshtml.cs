@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-
+using WebApplication1.Models.CustomIdentity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace WebApplication1.Areas.Identity.Pages.Account
@@ -16,9 +16,9 @@ namespace WebApplication1.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ConfirmEmailModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<WebApplication1User> _userManager;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
+        public ConfirmEmailModel(UserManager<WebApplication1User> userManager)
         {
             _userManager = userManager;
         }

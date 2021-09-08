@@ -1,7 +1,7 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "S'inscrire";
+    ViewData["Title"] = "Inscrire un nouvel utilisateur";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,10 +9,37 @@
 <div class="row">
     @*<div class="col-md-4 "></div>*@
         <div class="col-md-4 ">
-            <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <form asp-route-returnUrl="@Model.ReturnUrl"  method="post">
                 <h4>Créer un nouveau coumpte.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.FirstName">Prenom<span class="required">*</span></label>
+                    <input asp-for="Input.FirstName"  class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.LastName">Nom<span class="required">*</span></label>
+                    <input asp-for="Input.LastName" class="form-control" />
+                </div>
+                <div class="form-group"> 
+                    <label asp-for="Input.DateBirth"></label>
+                    <input asp-for="Input.DateBirth" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.UniteAdmin"></label>
+                    <input asp-for="Input.UniteAdmin" class="form-control"  />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Poste"></label>
+                    <input asp-for="Input.Poste" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Role"></label>
+                    <select asp-for="Input.Role" class="form-control" asp-items="Html.GetEnumSelectList<Role>()">
+                        <option value="0" selected>Selectionner un rôle</option>
+                    </select>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <label asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" class="form-control" />
@@ -28,7 +55,7 @@
                     <input asp-for="Input.ConfirmPassword" class="form-control" />
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary">S'inscrire</button>
+                <button type="submit" class="btn btn-primary">Créer</button>
             </form>
         </div>
         <!--<div class="col-md-6 col-md-offset-2">-->

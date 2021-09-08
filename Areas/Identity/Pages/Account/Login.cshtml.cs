@@ -11,19 +11,19 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-
+using WebApplication1.Models.CustomIdentity;
 namespace WebApplication1.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<WebApplication1User> _userManager;
+        private readonly SignInManager<WebApplication1User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<WebApplication1User> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<WebApplication1User> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -42,12 +42,14 @@ namespace WebApplication1.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Champ E-mail requis.")]
             [EmailAddress(ErrorMessage = "Saisissez une adresse e-mail valide.")]
+            //[RegularExpression(@"^[A-Za-z]+[0-9]*(.[A-Za-z0-9-]+)*@msss.gouv.qc.ca$",
+            //ErrorMessage = "Saisissez une adresse e-mail valide avec \"@msss.gouv.qc.ca\".")]
             [Display(Name = "E-mail ou Nom d'utilisateur")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Champ Mot de passe requis.")]
             [DataType(DataType.Password)]
             [Display(Name = "Mot de passe")]
             public string Password { get; set; }
@@ -102,7 +104,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Tentative de connexion échouer.");
+                    ModelState.AddModelError(string.Empty, "Tentative de connexion échouée.");
                     return Page();
                 }
             }
