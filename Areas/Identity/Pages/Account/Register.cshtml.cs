@@ -61,14 +61,14 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
             public DateTime DateBirth { get; set; }
 
-            [Required(ErrorMessage = "Le champ E-mail est requis")]
-            [EmailAddress(ErrorMessage = "Saisissez une adresse e-mail valide.")]
-            [Display(Name = "E-mail ou Nom d'utilisateur")]
+            [Required(ErrorMessage = "Le Champ courriel est requis")]
+            [EmailAddress(ErrorMessage = "Saisissez une adresse courriel valide.")]
+            //[Display(Name = "Courriel ou Nom d'utilisateur")]
             //[RegularExpression(@"^[A-Za-z]+[0-9]*(.[A-Za-z0-9-]+)*@msss.gouv.qc.ca$",
-            //ErrorMessage = "Saisissez une adresse e-mail valide avec \"@msss.gouv.qc.ca\".")]
+            //ErrorMessage = "Saisissez une adresse courriel valide avec \"@msss.gouv.qc.ca\".")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Le champ Mot de passe est requis")]
+            [Required(ErrorMessage = "Le Champ mot de passe est requis")]
             [StringLength(100, ErrorMessage = "Le mot de passe doit être au moins {2} caractère de logueur.", MinimumLength = 8)]
             [DataType(DataType.Password)]
             [Display(Name = "Mot de passe")]
@@ -104,33 +104,33 @@ namespace WebApplication1.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            int count = 1;
-            StringBuilder username = new StringBuilder(Input.LastName.Substring(0, Input.LastName.Length >= 3 ? 3 : Input.LastName.Length).ToUpper()
-                                        + Input.FirstName.Substring(0, Input.FirstName.Length >= 2 ? 2 : Input.FirstName.Length).ToUpper(), 100);
-                                        //+ Input.DateBirth.Day + "" + Input.DateBirth.Month+""+ Input.DateBirth.Year.ToString().Substring(2, 3), 100);
-            bool exist = true;
+            //int count = 1;
+            //StringBuilder username = new StringBuilder(Input.LastName.Substring(0, Input.LastName.Length >= 3 ? 3 : Input.LastName.Length).ToUpper()
+            //                            + Input.FirstName.Substring(0, Input.FirstName.Length >= 2 ? 2 : Input.FirstName.Length).ToUpper(), 100);
+            //                            //+ Input.DateBirth.Day + "" + Input.DateBirth.Month+""+ Input.DateBirth.Year.ToString().Substring(2, 3), 100);
+            //bool exist = true;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            do
-            {
-                if (count <= 9)
-                {
-                    username.Append("0" + count);
-                }
-                if (count > 9)
-                {
-                    username.Append(count);
-                }
-                var user = await _userManager.FindByNameAsync(username.ToString());
-                if (user == null)
-                {
-                    exist = false;
-                }
-                if (user != null)
-                {
-                    count++;
-                }
+            //do
+            //{
+            //    if (count <= 9)
+            //    {
+            //        username.Append("0" + count);
+            //    }
+            //    if (count > 9)
+            //    {
+            //        username.Append(count);
+            //    }
+            //    var user = await _userManager.FindByNameAsync(username.ToString());
+            //    if (user == null)
+            //    {
+            //        exist = false;
+            //    }
+            //    if (user != null)
+            //    {
+            //        count++;
+            //    }
 
-            } while (exist);
+            //} while (exist);
             if (ModelState.IsValid)
             {
                 var user = new WebApplication1User
@@ -157,8 +157,8 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync("bayes.diarra@msss.gouv.qc.ca", "Confirmation d'e-mail",
-                        $" S'il vous plaît, confirmez l'e-mail en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant sur ce lien</a>.");
+                    await _emailSender.SendEmailAsync("bayes.diarra@msss.gouv.qc.ca", "Confirmation Courriel",
+                        $" S'il vous plaît, confirmez l'Courriel en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant sur ce lien</a>.");
 
                     await _emailSender.SendEmailAsync(Input.Email, "Création de votre compte",
                             $" Votre compte a été Créé sont activation pourrait prendre quelques instants que vous puissez commencer à l'utliliser. \n" +

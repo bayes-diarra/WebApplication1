@@ -40,16 +40,20 @@ namespace WebApplication1.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
+        //[TempData]
+        //public string LoginMessage { get; set; }
+
+
         public class InputModel
         {
-            [Required(ErrorMessage = "Champ E-mail requis.")]
-            [EmailAddress(ErrorMessage = "Saisissez une adresse e-mail valide.")]
+            [Required(ErrorMessage = "Champ courriel requis.")]
+            [EmailAddress(ErrorMessage = "Saisissez une adresse courriel valide.")]
             //[RegularExpression(@"^[A-Za-z]+[0-9]*(.[A-Za-z0-9-]+)*@msss.gouv.qc.ca$",
-            //ErrorMessage = "Saisissez une adresse e-mail valide avec \"@msss.gouv.qc.ca\".")]
-            [Display(Name = "E-mail ou Nom d'utilisateur")]
+            //ErrorMessage = "Saisissez une adresse courriel valide avec \"@msss.gouv.qc.ca\".")]
+            [Display(Name = "Courriel")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Champ Mot de passe requis.")]
+            [Required(ErrorMessage = "Champ mot de passe requis.")]
             [DataType(DataType.Password)]
             [Display(Name = "Mot de passe")]
             public string Password { get; set; }
@@ -85,16 +89,20 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                //var userId = await _userManager.GetUserAsync()
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe,
                     lockoutOnFailure: false);
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Utilisateur connecté.");
+                    //LoginMessage = $"Bienvenue";
 
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
+                    //LoginMessage = $"Bienvenue";
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
                 if (result.IsLockedOut)
@@ -105,6 +113,15 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Tentative de connexion échouée.");
+                    var userOk = await _userManager.FindByEmailAsync(Input.Email);
+                    if (userOk == null)
+                    {
+                        ModelState.AddModelError(string.Empty, "Utilisateur inexistant.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Mot de passe incorrect!");
+                    }
                     return Page();
                 }
             }

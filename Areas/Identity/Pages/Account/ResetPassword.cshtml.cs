@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.Data;
 using WebApplication1.Models.CustomIdentity;
 
 namespace WebApplication1.Areas.Identity.Pages.Account
@@ -17,10 +19,13 @@ namespace WebApplication1.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<WebApplication1User> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public ResetPasswordModel(UserManager<WebApplication1User> userManager)
+        public ResetPasswordModel(UserManager<WebApplication1User> userManager,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
+            _context = context;
         }
 
         [BindProperty]
@@ -28,30 +33,32 @@ namespace WebApplication1.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Champ E-mail requis.")]
-            [EmailAddress(ErrorMessage = "Saisissez une adresse e-mail valide.")]
-            [Display(Name = "E-mail ou ou Nom d'utilisateur")]
+            [Required(ErrorMessage = "Champ courriel requis.")]
+            [EmailAddress(ErrorMessage = "Saisissez une adresse courriel valide.")]
+            [Display(Name = "Courriel ou ou Nom d'utilisateur")]
             //[RegularExpression(@"^[A-Za-z]+[0-9]*(.[A-Za-z0-9-]+)*@msss.gouv.qc.ca$",
-            //ErrorMessage = "Saisissez une adresse e-mail valide avec \"@msss.gouv.qc.ca\".")]
+            //ErrorMessage = "Saisissez une adresse courriel valide avec \"@msss.gouv.qc.ca\".")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Champ Mot de passe requis.")]
+            [Required(ErrorMessage = "Champ mot de passe requis.")]
             [StringLength(100, ErrorMessage = "Le mot de passe doit être au moins {2} caractère de logueur.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Mot de passe")]
+            [Display(Name = "Nouveau Mot de passe")]
             public string Password { get; set; }
             [Required(ErrorMessage = "Le champ Confirmation de Mot de passe est requis")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirmation de mot de passe")]
+            [Display(Name = "Confirmation du nouveau mot de passe")]
             [Compare("Password", ErrorMessage = "Le mot de passe et le mot de passe de confirmation ne correspondent pas.")]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }
+            
         }
 
-        public IActionResult OnGet(string code = null)
+        public async Task<IActionResult> OnGet(string id = null,string code = null)
         {
-            if (code == null)
+            
+            if (code == null || id == null)
             {
                 return BadRequest("Un code doit être fourni pour la réinitialisation du mot de passe.");
             }
@@ -59,8 +66,11 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             {
                 Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
                 };
+                
+                var user = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
+                Input.Email = await _userManager.GetEmailAsync(user);
                 return Page();
             }
         }

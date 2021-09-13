@@ -32,6 +32,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
+        [Display(Name = "Courriel")]
         public string Email { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -46,7 +47,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "Nouvel e-mail")]
+            [Display(Name = "Nouveau courriel")]
             public string NewEmail { get; set; }
         }
 

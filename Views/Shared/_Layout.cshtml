@@ -3,9 +3,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Stratégie de sécurité-->
+    <!-- default-src 'self';-->
+    <meta http-equiv="Content-Security-Policy"
+          content="base-uri 'self';
+          block-all-mixed-content;
+    img-src data: https:;
+    object-src 'none';
+    script-src https://stackpath.bootstrapcdn.com/
+    'self';
+    style-src https://stackpath.bootstrapcdn.com/
+    'self'
+    'unsafe-inline';
+    upgrade-insecure-requests;">
     <title>@ViewData["Title"] - Outil de Gestion de Licences</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <base href="~/" />
 </head>
 <body>
     <header>
@@ -45,6 +59,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="_framework/blazor.server.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -113,6 +113,8 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
+            
+
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
@@ -123,7 +125,6 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
-            //
 
 
             if (Input.Poste != user.Poste)
@@ -131,13 +132,8 @@ namespace WebApplication1.Areas.Identity.Pages.Account.Manage
                 user.Poste = Input.Poste;
             }
 
-            //if (Input.PhoneNumber != user.PhoneNumber)
-            //{
-            //    user.Poste = Input.Poste;
-            //}
 
-
-            //await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
 
 
             await _signInManager.RefreshSignInAsync(user);

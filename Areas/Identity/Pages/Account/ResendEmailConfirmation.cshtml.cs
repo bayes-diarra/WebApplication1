@@ -32,8 +32,8 @@ namespace WebApplication1.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress(ErrorMessage = "Saisissez une adresse e-mail valide.")]
-            [Display(Name = "E-mail")]
+            [EmailAddress(ErrorMessage = "Saisissez une adresse courriel valide.")]
+            [Display(Name = "Courriel")]
             public string Email { get; set; }
         }
 
@@ -51,7 +51,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "L'e-mail de vérification a été envoyé. Merci de consulter vos emails.");
+                ModelState.AddModelError(string.Empty, "L'Courriel de vérification a été envoyé. Merci de consulter vos emails.");
                 return Page();
             }
 
@@ -63,10 +63,10 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync("bayes.diarra@msss.gouv.qc.ca", "Confirmation d'e-mail",
-                        $" S'il vous plaît, confirmez l'e-mail en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant sur ce lien</a>.");
+            await _emailSender.SendEmailAsync("bayes.diarra@msss.gouv.qc.ca", "Confirmation Courriel",
+                        $" S'il vous plaît, confirmez l'Courriel en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant sur ce lien</a>.");
 
-            ModelState.AddModelError(string.Empty, "L'e-mail de vérification a été envoyé. Merci de consulter vos e-mails.");
+            ModelState.AddModelError(string.Empty, "L'Courriel de vérification a été envoyé. Merci de consulter vos Courriels.");
             return Page();
         }
     }

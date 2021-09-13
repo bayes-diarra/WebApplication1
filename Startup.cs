@@ -15,6 +15,9 @@ using WebApplication1.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using WebApplication1.Services;
 using WebApplication1.Models.CustomIdentity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+
 namespace WebApplication1
 {
     public class Startup
@@ -50,11 +53,22 @@ namespace WebApplication1
             //    // policy.RequireRole("Administrator", "PowerUser", "BackupAdministrator"));
             //});
 
+            //Stratégie d’authentification de secours pour exiger que les utilisateurs soient authentifiés :
+
+            services.AddControllers(config =>
+            {
+                
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddServerSideBlazor();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -68,7 +82,7 @@ namespace WebApplication1
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
@@ -119,6 +133,7 @@ namespace WebApplication1
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
             });
         }
     }

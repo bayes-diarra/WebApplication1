@@ -38,7 +38,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return NotFound($"Impossible de charger l'utilisateur avec l'e-mail '{email}'.");
+                return NotFound($"Impossible de charger l'utilisateur avec l'Courriel '{email}'.");
             }
 
             Email = email;

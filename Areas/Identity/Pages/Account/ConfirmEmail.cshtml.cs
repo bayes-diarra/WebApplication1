@@ -41,7 +41,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            StatusMessage = result.Succeeded ? "L'e-mail a été confirmé avec succes." : "Erreur de confirmation d'e-mail.";
+            StatusMessage = result.Succeeded ? "L'Courriel a été confirmé avec succes." : "Erreur de confirmation Courriel.";
             //if (user.EmailConfirmed) 
             //{ 
             //    await _emailSender.SendEmailAsync(user.Email, "Création de votre compte",

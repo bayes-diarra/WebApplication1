@@ -31,11 +31,11 @@ namespace WebApplication1.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Champ E-mail requis.")]
-            [EmailAddress(ErrorMessage = "Saisissez une adresse e-mail valide.")]
-            [Display(Name = "E-mail")]
+            [Required(ErrorMessage = "Champ courriel requis.")]
+            [EmailAddress(ErrorMessage = "Saisissez une adresse courriel valide.")]
+            [Display(Name = "Courriel")]
             //[RegularExpression(@"^[A-Za-z]+[0-9]*(.[A-Za-z0-9-]+)*@msss.gouv.qc.ca$",
-            //ErrorMessage = "Saisissez une adresse e-mail valide avec \"@msss.gouv.qc.ca\".")]
+            //ErrorMessage = "Saisissez une adresse courriel valide avec \"@msss.gouv.qc.ca\".")]
             public string Email { get; set; }
         }
 
@@ -57,7 +57,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
-                    values: new { area = "Identity", code },
+                    values: new { area = "Identity", code, user.Id },
                     protocol: Request.Scheme);
 
                 await _emailSender.SendEmailAsync(
