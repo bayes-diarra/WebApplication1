@@ -1,0 +1,36 @@
+﻿@model WebApplication1.Models.Direction
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Détails</h1>
+
+<div>
+    <h4>Direction</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AncienNomDirection)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AncienNomDirection)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NomDirection)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NomDirection)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcronimeDirection)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcronimeDirection)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.NumDirection">Modifier</a> |
+    <a asp-action="Index">Retourner à la liste</a>
+</div>

@@ -1,22 +1,17 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApplication1.Data;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using WebApplication1.Services;
 using WebApplication1.Models.CustomIdentity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
+using WebApplication1.Services;
 
 namespace WebApplication1
 {
@@ -37,27 +32,16 @@ namespace WebApplication1
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddIdentity<WebApplication1User,WebApplication1Role>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<WebApplication1User, WebApplication1Role>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            //services.AddScoped<IUserClaimsPrincipalFactory<WebApplication1User>,
-            //    AdditionalUserClaimsPrincipalFactory>();
-            //     services.Configure<DataProtectionTokenProviderOptions>(o =>
-            //o.TokenLifespan = TimeSpan.FromHours(5));
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("UserRights", policy =>
-            //      policy.RequireRole("Administrator", "ExternalUser", "InternalUser"));
-            //    //options.AddPolicy("ElevatedRights", policy =>
-            //    // policy.RequireRole("Administrator", "PowerUser", "BackupAdministrator"));
-            //});
+           
 
             //Stratégie d’authentification de secours pour exiger que les utilisateurs soient authentifiés :
 
             services.AddControllers(config =>
             {
-                
+
                 var policy = new AuthorizationPolicyBuilder()
                                  .RequireAuthenticatedUser()
                                  .Build();
@@ -68,7 +52,7 @@ namespace WebApplication1
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -82,7 +66,7 @@ namespace WebApplication1
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
-                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                // options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
 
@@ -90,19 +74,30 @@ namespace WebApplication1
                 options.User.AllowedUserNameCharacters =
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
-                
+
             });
 
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromHours(5);
 
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+            //services.AddDistributedMemoryCache();
+
+            //services.AddSession(options =>
+            //{
+            //    options.Cookie.Name = ".accounts.GestionLicence.Session";
+            //    options.IdleTimeout = TimeSpan.FromSeconds(10);
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.IsEssential = true;
+
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -127,13 +122,13 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-                endpoints.MapBlazorHub();
             });
         }
     }

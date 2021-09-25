@@ -35,7 +35,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
         {
             [Required(ErrorMessage = "Champ courriel requis.")]
             [EmailAddress(ErrorMessage = "Saisissez une adresse courriel valide.")]
-            [Display(Name = "Courriel ou ou Nom d'utilisateur")]
+            [Display(Name = "Courriel ")]
             //[RegularExpression(@"^[A-Za-z]+[0-9]*(.[A-Za-z0-9-]+)*@msss.gouv.qc.ca$",
             //ErrorMessage = "Saisissez une adresse courriel valide avec \"@msss.gouv.qc.ca\".")]
             public string Email { get; set; }
@@ -43,9 +43,9 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Champ mot de passe requis.")]
             [StringLength(100, ErrorMessage = "Le mot de passe doit être au moins {2} caractère de logueur.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Nouveau Mot de passe")]
+            [Display(Name = "Nouveau mot de passe")]
             public string Password { get; set; }
-            [Required(ErrorMessage = "Le champ Confirmation de Mot de passe est requis")]
+            [Required(ErrorMessage = "Le champ confirmation de mot de passe est requis")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirmation du nouveau mot de passe")]
             [Compare("Password", ErrorMessage = "Le mot de passe et le mot de passe de confirmation ne correspondent pas.")]

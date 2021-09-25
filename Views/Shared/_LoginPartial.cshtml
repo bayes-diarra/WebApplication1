@@ -6,17 +6,32 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
-        </li>
-        <li class="nav-item">
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Revendeurs" asp-action="Index">Revendeurs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Directions" asp-action="Index">Directions</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Employes" asp-action="Index">Employes</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="PosteTravails" asp-action="Index">Postes</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Serveurs" asp-action="Index">Serveurs</a>
+    </li>
+    @*<li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="WebApplication1Users" asp-action="Index">Users</a>
         </li>
-        @*<li class="nav-item">
+        <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="WebApplication1Roles" asp-action="Index">Roles</a>
             </li>*@
-    </ul>
+</ul>
 
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -28,6 +43,8 @@
             </form>
         </li>
     </ul>
+
+    
 }
 else
 {
@@ -35,7 +52,7 @@ else
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
         </li>
-        
+
     </ul>
     <ul class="navbar-nav">
         @*<li class="nav-item">
@@ -47,3 +64,5 @@ else
 
     </ul>
 }
+
+

@@ -7,15 +7,19 @@
 
 
 @code {
-    private int currentCount = 0;
+private int currentCount = 0;
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
+private void IncrementCount()
+{
+    currentCount++;
+}
 
-    private void DecrementCount()
-    {
-        currentCount--;
-    }
+private void DecrementCount()
+{
+    currentCount--;
+}
+
+    [Parameter]
+    public int InitialValue { get; set; }
+
 }

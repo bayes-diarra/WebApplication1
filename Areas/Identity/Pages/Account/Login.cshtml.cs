@@ -96,13 +96,11 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Utilisateur connecté.");
-                    //LoginMessage = $"Bienvenue";
 
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    //LoginMessage = $"Bienvenue";
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
                 if (result.IsLockedOut)
@@ -120,6 +118,8 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        userOk.AccessFailedCount +=1 ;
+                        await _userManager.UpdateAsync(userOk);
                         ModelState.AddModelError(string.Empty, "Mot de passe incorrect!");
                     }
                     return Page();

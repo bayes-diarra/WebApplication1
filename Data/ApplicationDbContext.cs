@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using WebApplication1.Models.CustomIdentity;
+using WebApplication1.Models;
 
 namespace WebApplication1.Data
 {
@@ -18,6 +19,11 @@ namespace WebApplication1.Data
         {
         }
 
+        public DbSet<Revendeur> Revendeurs { get; set; }
+        public DbSet<Direction> Directions { get; set; }
+        public DbSet<Employe> Employes { get; set; }
+        public DbSet<PosteTravail> PosteTravails { get; set; }
+        public DbSet<Serveur> Serveurs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -36,6 +42,16 @@ namespace WebApplication1.Data
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
+
+            builder.Entity<Revendeur>().ToTable("Revendeur");
+
+            builder.Entity<Direction>().ToTable("Direction");
+
+            builder.Entity<Employe>().ToTable("Employe");
+
+            builder.Entity<PosteTravail>().ToTable("PosteTravail");
+
+            builder.Entity<Serveur>().ToTable("Serveur");
         }
     }
 }

@@ -18,6 +18,7 @@
     upgrade-insecure-requests;">
     <title>@ViewData["Title"] - Outil de Gestion de Licences</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/js/session-expiration-idle-hands/jquery-idle-hands.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <base href="~/" />
 </head>
@@ -35,10 +36,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Accueil</a>
                         </li>-->
-                        @*<li class="nav-item">
+                    @*<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>*@
-                        @*<partial name="_NavbarItems" />*@                        
+                    @*<partial name="_NavbarItems" />*@
                     <!--</ul>-->
                     <partial name="_LoginPartial" />
                 </div>
@@ -46,6 +47,7 @@
         </nav>
     </header>
     <div class="container">
+        <partial name="_SessionTimeoutWarming" />
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -57,9 +59,30 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/basil.js/0.4.10/basil.min.js"></script>
+    <script src="~/js/session-expiration-idle-hands/jquery-idle-hands.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(function () {
+            $.idleHands({
+                activityEvents: 'click keypress scroll wheel mousewheel mousemove',
+                applicationId: 'my_application',
+                dialogMessage: 'Votre session est sur le point d\'expirer en raison de votre inactivité.\n Voulez-vous rester?',
+                dialogTitle: 'Avertissement d\'expiration de session',
+                heartRate: 0,
+                inactivityDialogDuration: 10,
+                logoutNowButtonText: "Se déconneter",
+                stayLoggedInButtonText: "Oui",
+                inactivityLogoutUrl: null,
+                manualLogoutUrl: 'null',
+                maxInactivitySeconds: 15
+            });
+        });
+    </script>
+    @*https://localhost:44396/*@
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="_framework/blazor.server.js"></script>
+
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
