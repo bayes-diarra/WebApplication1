@@ -8,7 +8,7 @@ namespace WebApplication1.Models.CustomIdentity
 {
     public enum Role
     {
-        Administrateur, Externe, Interne
+        Administrateur, Gestionnaire, Externe
     }
     public class WebApplication1User : IdentityUser
     {

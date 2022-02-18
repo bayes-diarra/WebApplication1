@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace WebApplication1.Controllers.CustomIdentity
     public class WebApplication1RolesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly RoleManager<WebApplication1Role> _roleManager;
 
-        public WebApplication1RolesController(ApplicationDbContext context)
+        public WebApplication1RolesController(ApplicationDbContext context, RoleManager<WebApplication1Role> roleManager)
         {
             _context = context;
+            _roleManager = roleManager;
         }
 
         // GET: webApplication1Roles
@@ -54,13 +57,17 @@ namespace WebApplication1.Controllers.CustomIdentity
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,NormalizedName,ConcurrencyStamp")] WebApplication1Role webApplication1Role)
+        public async Task<IActionResult> Create([Bind("Name,Description")] WebApplication1Role webApplication1Role)
         {
+            
             if (ModelState.IsValid)
             {
-                _context.Add(webApplication1Role);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var result =  await _roleManager.CreateAsync(webApplication1Role);                
+                if(result.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                
             }
             return View(webApplication1Role);
         }
@@ -86,7 +93,7 @@ namespace WebApplication1.Controllers.CustomIdentity
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,NormalizedName,ConcurrencyStamp")] WebApplication1Role webApplication1Role)
+        public async Task<IActionResult> Edit(string id, [Bind("Name,Description")] WebApplication1Role webApplication1Role)
         {
             if (id != webApplication1Role.Id)
             {
@@ -97,8 +104,8 @@ namespace WebApplication1.Controllers.CustomIdentity
             {
                 try
                 {
-                    _context.Update(webApplication1Role);
-                    await _context.SaveChangesAsync();
+                    await _roleManager.UpdateAsync(webApplication1Role);
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {

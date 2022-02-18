@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Stratégie de sécurité-->
     <!-- default-src 'self';-->
-    <meta http-equiv="Content-Security-Policy"
-          content="base-uri 'self';
-          block-all-mixed-content;
-    img-src data: https:;
-    object-src 'none';
-    script-src https://stackpath.bootstrapcdn.com/
-    'self';
-    style-src https://stackpath.bootstrapcdn.com/
-    'self'
-    'unsafe-inline';
-    upgrade-insecure-requests;">
+    @*<meta http-equiv="Content-Security-Policy"
+              content="base-uri 'self';
+              block-all-mixed-content;
+        img-src data: https:;
+        object-src 'none';
+        script-src https://stackpath.bootstrapcdn.com/
+        'self';
+        style-src https://stackpath.bootstrapcdn.com/
+        'self'
+        'unsafe-inline';
+        upgrade-insecure-requests;">*@
     <title>@ViewData["Title"] - Outil de Gestion de Licences</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/js/session-expiration-idle-hands/jquery-idle-hands.min.css" />
@@ -59,9 +59,10 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/basil.js/0.4.10/basil.min.js"></script>
-    <script src="~/js/session-expiration-idle-hands/jquery-idle-hands.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/basil.js/0.4.10/basil.min.js"></script>
+    <script src="~/js/session-expiration-idle-hands/jquery-idle-hands.js"></script>
     <script>
         $(function () {
             $.idleHands({
@@ -73,15 +74,13 @@
                 inactivityDialogDuration: 10,
                 logoutNowButtonText: "Se déconneter",
                 stayLoggedInButtonText: "Oui",
-                inactivityLogoutUrl: null,
-                manualLogoutUrl: 'null',
+                inactivityLogoutUrl: '/Identity/Account/Login',
+                manualLogoutUrl: '/Identity/Account/Login',
                 maxInactivitySeconds: 15
             });
         });
-    </script>
-    @*https://localhost:44396/*@
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
+    </script>*@
+    }
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -323,6 +323,23 @@
             });
         }
 
+        end = function () {
+           
+            $.ajax({
+                typt: 'POST',
+                url: 'Identity/Account/Logout',
+                contentType: false,
+                processData: false,
+                success: function (res) {
+
+                },
+                error: function (err) {
+                    console.log(err);
+                },
+            })
+
+        }
+
         /**
          * Shows the dialog window.
          */
@@ -367,9 +384,9 @@
 
                 stopHeartbeatTimer();
                 stopInactivityTimer();
-
+                end();
                 $('#jquery-idle-hands-dialog').hide();
-
+                
                 window.location.href = logoutUrl;
             }
         }

@@ -21,6 +21,7 @@ namespace WebApplication1.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<WebApplication1User> _signInManager;
         private readonly UserManager<WebApplication1User> _userManager;
+        private readonly RoleManager<WebApplication1Role> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
@@ -28,12 +29,15 @@ namespace WebApplication1.Areas.Identity.Pages.Account
             UserManager<WebApplication1User> userManager,
             SignInManager<WebApplication1User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<WebApplication1Role> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
+
         }
 
         [BindProperty]
@@ -147,6 +151,15 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    string role = null;
+
+                    if (Role.Administrateur == Input.Role)
+                        role = "Administrateur";
+                    if (Role.Gestionnaire == Input.Role)
+                        role = "Gestionnaire";
+                    if (Role.Externe == Input.Role)
+                        role = "Externe";
+                    await _userManager.AddToRoleAsync(user, role);
                     _logger.LogInformation("L'utilisateur a créé un nouveau compte avec un mot de passe.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

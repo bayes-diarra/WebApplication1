@@ -93,7 +93,7 @@ namespace WebApplication1
             //services.AddSession(options =>
             //{
             //    options.Cookie.Name = ".accounts.GestionLicence.Session";
-            //    options.IdleTimeout = TimeSpan.FromSeconds(10);
+            //    options.IdleTimeout = TimeSpan.FromMinutes(10);
             //    options.Cookie.HttpOnly = true;
             //    options.Cookie.IsEssential = true;
 
